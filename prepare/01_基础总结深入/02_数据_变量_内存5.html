@@ -17,13 +17,12 @@
 -->
 <script type="text/javascript">
   var obj = {}
-  obj = null // ?
-
+  obj = null // obj变量因为是全局的所以还在，{}对象所占用的内存被释放了，其他数据可以使用该内存
   function fn () {
     var a = 3
     var b = {}
   }
-  fn() // 执行完后b，c是立即释放，c指向的对象在后面的某个时刻被垃圾器回收释放
+  fn() // 执行完后b，c是立即释放，c指向的对象{}在后面的某个时刻被垃圾器回收释放
 </script>
 </body>
 </html>

@@ -10,9 +10,27 @@
   var a = {}
   var obj1 = {n: 2}
   var obj2 = {m: 3}
-  a[obj1] = 4
-  a[obj2] = 5
-  console.log(a[obj1]) // 输出多少?
+  /*
+      因为属性名必须是字符串，所以当传入的属性名是个变量，值是对象时，内部会调用该对象的toString()方法
+      来得到字符串的属性名：a['[object Object]'] = 4,a[obj1]和a[obj2]通过toString()转换后都是
+      得到相同的[object Object]，所以它们分别赋值实际是在给[object Object]重新赋值，如果属性名
+      是个变量，值是数组，那就看数组是否一样，如果一样后面就是赋值操作，如果不一样那就互不影响
+    */
+  console.log(obj1.toString())   // [object Object]
+  a[obj1] = 4   //  a['[object Object]'] = 4
+  a[obj2] = 5   //  a['[object Object]'] = 5 在这里只是相当于给a['[object Object]']重新赋值了
+  console.log(a[obj1]) // 5
+
+
+  var arr1 = [1, 2]   // arr1保存的是数组[1, 2]的地址值，
+  var arr2 = [3, 4]   // arr2保存的是数组[3, 4]的地址值
+  var arr3 = [3, 4]    // arr3保存的是数组[3, 4]的地址值
+  a[arr1] = 6    // 相当于a['[1, 2]的地址值'] = 6
+  a[arr2] = 8    // 相当于a['[3, 4]的地址值'] = 8
+  a[arr3] = 10   // 相当于a['[3, 4]的地址值'] = 10  ,即也是给a['[3, 4]的地址值']重新赋值
+  console.log(a[arr1])   // 6
+  console.log(a[arr2])   // 10  后面给a['[3, 4]的地址值']重新赋值了
+
 </script>
 </body>
 </html>

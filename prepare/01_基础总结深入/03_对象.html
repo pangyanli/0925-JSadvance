@@ -21,8 +21,8 @@
     * 代表现实事物的行为数据
     * 是特别的属性==>属性值是函数
 4. 如何访问对象内部数据?
-  * .属性名: 编码简单, 但有时不能用
-  * ['属性名']: 编码麻烦, 但通用
+  * .属性名: 编码简单, 但有时不能用（比如属性名中有其他特殊符号，或者属性名是个变量）
+  * ['属性名']: 编码麻烦, 但通用（不管属性名是什么样子的都可以使用）
 -->
 <script type="text/javascript">
   // 创建对象
@@ -36,12 +36,11 @@
       this.age = age
     }
   }
-
   // 访问对象内部数据
-  console.log(p.name, p['age'])
+  console.log(p.name, p['age'])  // Tom 12
   p.setName('Jack')
-  p['age'](23)
-  console.log(p['name'], p.age)
+  p['setAge'](23)
+  console.log(p['name'], p.age)   // Jack  23
 
 </script>
 </body>
