@@ -34,26 +34,37 @@
     };
   }
 
-  Person("red"); //this是谁?
+  Person("red"); //this是谁?   window
 
-  var p = new Person("yello"); //this是谁?
+  var p = new Person("yello"); //this是谁?  p
 
-  p.getColor(); //this是谁?
+  p.getColor(); //this是谁?  p
 
   var obj = {};
-  p.setColor.call(obj, "black"); //this是谁?
+  p.setColor.call(obj, "black"); //this是谁?  obj
 
   var test = p.setColor;
-  test(); //this是谁?
+  test(); //this是谁?    window
 
   function fun1() {
     function fun2() {
       console.log(this);
     }
 
-    fun2(); //this是谁?
+    fun2(); //this是谁?    window
   }
   fun1();
+
+
+    //  1、执行函数定义：创建函数对象
+  //2、执行函数：执行函数体中语句（必须在执行函数定义之后（时间上的不是位置之后））
+
+  function fn(){
+      console.log(this)
+  }
+  var obj = {n: 1}
+
+  var fn2 = fn.bind(obj)
 </script>
 </body>
 </html>

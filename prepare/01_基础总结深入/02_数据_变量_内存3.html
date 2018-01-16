@@ -16,23 +16,23 @@
   var obj1 = {}
   var obj2 = obj1
   obj2.name = 'Tom'
-  console.log(obj1.name)
-  function f1(obj) {
-    obj.age = 12
+  console.log(obj1.name)   // Tom
+  function f1(obj) {  // obj = obj2 ,那么此时obj/obj1/obj2三个变量都指向同一个对象{}
+    obj.age = 12    // 任意一个引用变量来修改对象内部的数据，其他两个引用变量也看得见
   }
   f1(obj2)
-  console.log(obj1.age)
+  console.log(obj1.age)   // 12
 
   //2. 2个引用变量指向同一个对象,让一个引用变量指向另一个对象, 另一个引用变量还是指向原来的对象
   var obj3 = {name: 'Tom'}
   var obj4 = obj3
   obj3 = {name: 'JACK'}
-  console.log(obj4.name)
-  function f2(obj) {
-    obj = {name: 'Bob'}
+  console.log(obj4.name)    // Tom ，obj4还是指向{name: 'Tom'}对象，而obj3指向的是{name: 'JACK'}对象
+  function f2(obj) {  // obj = obj4
+    obj = {name: 'Bob'}  // 这一步将 obj 切断对obj4指向的对象的引用，重新指向另一个新对象{name: 'Bob'}
   }
   f2(obj4)
-  console.log(obj4.name)
+  console.log(obj4.name)   // Tom
 
 </script>
 </body>

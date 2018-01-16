@@ -23,7 +23,27 @@
 -->
 
 <script type="text/javascript">
-
+//    // 1. undefined与null的区别?
+//    var a1
+//    var a2 = null
+//    console.log(a1, a2)   // undefined null
+    var a3 = null
+    //中间
+    var name = 'Tom'
+    var age = 12
+    a3 = {
+        name: name,
+        age: age
+    }
+    /*
+     在程序的后面：a3指向的对象就没有了指向它的引用，就称为垃圾对象从而被垃圾器回收
+     但是因为b时全局变量，b并没有释放，而是一致存在
+     */
+    a3 = null
+    a3 = {
+        name: 'tom'
+    }
+  console.log(a3.name)
 </script>
 </body>
 </html>

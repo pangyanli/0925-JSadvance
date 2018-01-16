@@ -17,10 +17,9 @@
   * 函数声明
   * 表达式
 4. 如何调用(执行)函数?
-  * test()
-  * new test()
-  * obj.test()
-  * test.call/apply(obj)
+  * test()   直接调用
+  * new test()  new 调用
+  * test.call/apply(obj)  通过函数的对象的call、applay()调用
 -->
 <script type="text/javascript">
 
@@ -59,6 +58,7 @@
   }
   console.log(fn instanceof Object) // 是Object类型的实例
   console.log(fn.prototype) // 内部有属性
+  console.log(fn.toSource())
   console.log(fn.call) // 内部有方法
   fn.t1 = 'atguigu' // 可以添加属性
   fn.t2 = function () { // 可以添加方法

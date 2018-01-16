@@ -28,6 +28,40 @@
 -->
 
 <script type="text/javascript">
+  //typeof: 返回的是数据类型的字符串表达形式
+  // 1、基本类型的判断例子
+  var a
+  console.log(a, typeof a, a === 'undefined')  // undefined "undefined" false
+  console.log(a, typeof a, a === undefined)  // undefined "undefined"  true
+  console.log(a === typeof a)   // false 因为a是undefined，后者是"undefined"
+  a = 6
+  console.log(typeof a, typeof a === 'number')   // number true
+  a = 'hello world'
+  console.log(typeof a, typeof a === 'string')    // string true
+  a = true
+  console.log(typeof a, typeof a === 'boolean')   //  boolean true
+  a = null
+  console.log(typeof a)  // object
+  console.log(a === null)  // true    null 不能用 typeof 来检查，要用全等来检查
+  // 2、对象类型的例子
+  var b1 = {
+      b2: [2, 'abc', console.log],
+      b3: function () {
+          console.log('b3()')
+      }
+  }
+  console.log(b1 instanceof Object, typeof b1) // true "object"
+  console.log(b1.b2 instanceof Array, typeof b1.b2) // true "object"
+  console.log(b1.b3 instanceof Function, typeof b1.b3) // true "function"
+
+  console.log(typeof b1.b2[2]) // function  注意console.log(),log是个函数
+  /*
+    b1.b2[2]('aaa')调用了console.log输出了aaa，但是console.log()函数没有返回值，
+      即为undefined，console.log(b1.b2[2]('aaa'))最后相当于执行console.log(undefined)
+      所以最后输出的是undefined
+   */
+  console.log(b1.b2[2]('aaa')) // aaa   undefined
+
 
 </script>
 </body>
