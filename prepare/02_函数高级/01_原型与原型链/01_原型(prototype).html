@@ -14,30 +14,29 @@
 -->
 <script type="text/javascript">
   // 每个函数都有一个prototype属性, 它默认指向一个对象(即称为: 原型对象)
-  console.log(Date.prototype, typeof Date.prototype)  //
-  function fn() {
+  console.log(Date.prototype, typeof Date.prototype) //{很多方法的对象} "object"
+  //{constructor: ƒ, toString: ƒ, toDateString: ƒ, toTimeString: ƒ, toISOString: ƒ, …} "object"
 
-  }
-  console.log(fn.prototype, typeof fn.prototype)
+  function fn() {}
+  console.log(fn.prototype, typeof fn.prototype)  // {constructor: ƒ} "object"
 
   // 原型对象中有一个属性constructor, 它指向函数对象
-  console.log(Date.prototype.constructor===Date)
-  console.log(fn.prototype.constructor===fn)
+  console.log(Date.prototype.constructor===Date)   // true
+  console.log(fn.prototype.constructor===fn)   // true
 
 
   // 2. 给原型对象添加属性(一般都是方法)
-  function F() {
-
-  }
+  function F() { }
   F.prototype.age = 12 //添加属性
   F.prototype.setAge = function (age) { // 添加方法
+      console.log(this)   // f
     this.age = age
   }
   // 创建函数的实例对象
   var f = new F()
-  console.log(f.age)
+  console.log(f.age)   // 12
   f.setAge(23)
-  console.log(f.age)
+  console.log(f.age)   // 23
 
 </script>
 </body>

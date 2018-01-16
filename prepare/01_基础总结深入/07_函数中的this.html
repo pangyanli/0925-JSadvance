@@ -12,10 +12,14 @@
   * this代表调用函数的当前对象
   * 在定义函数时, this还没有确定, 只有在执行时才动态确定(绑定)的
 2. 如何确定this的值?
-  * test()
-  * obj.test()
-  * new test()
-  * test.call(obj)
+  * test() ：  window
+  * obj.test() ：  obj
+  * new test() ：  新创建的实例对象
+  * test.call(obj) ：  obj
+  * DOM 事件回调函数 ：绑定事件的 dom 元素
+  * 定时器回调函数 ：window
+  * ajax 回调函数 ： window
+  * 数字遍历相关方法(map,forEach,filter)回调函数 ： window
 前置知识:
   * 本质上任何函数在执行时都是通过某个对象调用的
 -->
@@ -33,24 +37,17 @@
       this.color = color;
     };
   }
-
   Person("red"); //this是谁?   window
-
   var p = new Person("yello"); //this是谁?  p
-
   p.getColor(); //this是谁?  p
-
   var obj = {};
   p.setColor.call(obj, "black"); //this是谁?  obj
-
   var test = p.setColor;
   test(); //this是谁?    window
-
   function fun1() {
     function fun2() {
       console.log(this);
     }
-
     fun2(); //this是谁?    window
   }
   fun1();
@@ -64,7 +61,8 @@
   }
   var obj = {n: 1}
 
-  var fn2 = fn.bind(obj)
+  var fn2 = fn.bind(obj)   // 不输出
+  var fn3 = fn.bind(obj)()   //  {n: 1}
 </script>
 </body>
 </html>

@@ -12,7 +12,7 @@
 -->
 <script type="text/javascript">
 
-  //1. 2个引用变量指向同一个对象, 通过一个引用变量修改对象内部数据, 另一个引用变量也看得见
+/*  //1. 2个引用变量指向同一个对象, 通过一个引用变量修改对象内部数据, 另一个引用变量也看得见
   var obj1 = {}
   var obj2 = obj1
   obj2.name = 'Tom'
@@ -32,7 +32,14 @@
     obj = {name: 'Bob'}  // 这一步将 obj 切断对obj4指向的对象的引用，重新指向另一个新对象{name: 'Bob'}
   }
   f2(obj4)
-  console.log(obj4.name)   // Tom
+  console.log(obj4.name)   // Tom*/
+
+var i = 3
+  function test(j){  // j = i 只是值传递，j = 3，两个变量是互相独立存在的
+    j++
+  }
+  test(i)
+console.log(i)   //3
 
 </script>
 </body>

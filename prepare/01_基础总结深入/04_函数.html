@@ -56,13 +56,13 @@
   function fn() {
 
   }
-  console.log(fn instanceof Object) // 是Object类型的实例
-  console.log(fn.prototype) // 内部有属性
-  console.log(fn.toSource())
-  console.log(fn.call) // 内部有方法
+  console.log(fn instanceof Object) //  true  是Object类型的实例
+  console.log(fn.prototype) // {constructor: ƒ}  内部有属性
+  console.log(fn.toString)  // ƒ toString() { [native code] }  内部有方法
+  console.log(fn.call) // ƒ call() { [native code] } 内部有方法
   fn.t1 = 'atguigu' // 可以添加属性
   fn.t2 = function () { // 可以添加方法
-    console.log('t2() '+this.t1)
+    console.log('t2() '+this.t1)    // t2() atguigu
   }
   fn.t2()
 </script>
