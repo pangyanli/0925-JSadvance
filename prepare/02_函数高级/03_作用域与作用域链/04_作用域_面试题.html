@@ -11,13 +11,13 @@
    */
   var x = 10;
   function fn() {
-    console.log(x);
+    console.log(x);    // 10
   }
-  function show(f) {
+  function show(f) {  //实参传fn即相当于：f = fn
     var x = 20;
-    f();
+    f();   // fn() 即在这里调用了fn函数,执行fn作用域的上下文环境，执行相关代码逻辑
   }
-  show(fn);
+  show(fn)
 </script>
 </body>
 </html>

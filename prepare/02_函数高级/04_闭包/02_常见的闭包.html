@@ -14,17 +14,18 @@
   // 1. 将函数作为另一个函数的返回值
   function fn1() {
     var a = 2
-
     function fn2() {
       a++
       console.log(a)
     }
-
     return fn2
   }
-  var f = fn1()
-  f() // 3
+  var f = fn1()   // f 保存了内部函数对象的引用，保证内部函数对象没有成为垃圾对象
+  f() // 3         // 闭包一直存在  ,可以在控制台Sources中给a++打断点观察闭包的变化情况
   f() // 4
+  f()  //  5
+  f()  // 6
+
 
   // 2. 将函数作为实参传递给另一个函数调用
   function showMsgDelay(msg, time) {
@@ -32,7 +33,14 @@
       console.log(msg)
     }, time)
   }
-  showMsgDelay('hello', 1000)
+  showMsgDelay('hello', 1000)   // 闭包存在的时间是1s
+  /*将函数作为实参传给另一个函数调用*/
+  /*function showMsg(msg, time){
+      setTimeout(function(){
+          alert(msg)
+      },time)
+  }
+  showMsg('hello', 1000)*/
 </script>
 </body>
 </html>

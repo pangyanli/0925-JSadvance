@@ -10,6 +10,8 @@
     console.log(msg.toUpperCase())
   }
   function b() {
+    //join() 方法用于把数组中的所有元素放入一个字符串。
+      // 元素是通过指定的分隔符进行分隔的。join(' ')以空格分隔
     console.log(names.join(' '))
   }
 

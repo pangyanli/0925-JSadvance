@@ -10,22 +10,19 @@
   /*
   测试题1
    */
-  var A = function() {
-
-  }
-  A.prototype.n = 1
-
+  var A = function() {}
+   var b = new A()
+  console.log(b.n)  // undefined
+  A.prototype.n = 1   // 通过显示原型给原型对象添加属性，所有对象都有影响
   var b = new A()
+  console.log(b.n)   // 1
 
-  A.prototype = {
+  A.prototype = {  //改变显示原型指向，对前面创建的对象没有影响
     n: 2,
     m: 3
   }
-
   var c = new A()
-  console.log(b.n, b.m, c.n, c.m)
-
-
+  console.log(b.n, b.m, c.n, c.m)  // 1  undefined  2  3
   /*
    测试题2
    */
@@ -37,10 +34,10 @@
     console.log('b()')
   };
   var f = new F();
-  f.a()
-  f.b()
-  F.a()
-  F.b()
+  f.a()    // a()
+  F.a()   // a()
+  F.b()   // b()
+  //  f.b()  //　报错  ｆ instanceof Function  --> false　
 
 </script>
 </body>

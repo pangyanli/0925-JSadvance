@@ -11,23 +11,34 @@
    */
   function a() {}
   var a;
-  console.log(typeof a)
+  console.log(typeof a)    // function
 
 
   /*
   测试题2: 变量预处理, in操作符
    */
-  if (!(b in window)) {
+  if (!('b' in window)) {   //用var关键字声明变量了，变量声明提升了，说明window中是有b的，取反if语句就不执行了
     var b = 1;
   }
-  console.log(b)
+  console.log(b)     // undefined
 
   /*
   测试题3: 预处理, 顺序执行
    */
+
+  /*
+      预处理代码
+//        var c     因为有函数c所以var c 会被忽略
+       function c(b) {
+          console.log(b)     // c = function(){console.log(b)  var c = 3}
+          var c = 3
+      }
+      c = 1     // 相当于给c重新赋值
+      c(2)     // 1(2)  1不是函数，不能调用
+  */
   var c = 1
   function c(c) {
-    console.log(c)
+    console.log(c)     // 报错c不是一个函数
     var c = 3
   }
   c(2)

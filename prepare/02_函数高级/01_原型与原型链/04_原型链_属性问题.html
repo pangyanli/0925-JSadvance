@@ -22,12 +22,12 @@
 
   var p1 = new Person('Tom', 12)
   p1.setName('Jack')
-  console.log(p1.name, p1.age, p1.sex)
+  console.log(p1.name, p1.age, p1.sex)  //Jack 12 男     查找属性值看原型链
   p1.sex = '女'
-  console.log(p1.name, p1.age, p1.sex)
+  console.log(p1.name, p1.age, p1.sex)  // Jack 12 女   给属性赋值不用看原型链
 
   var p2 = new Person('Bob', 23)
-  console.log(p2.name, p2.age, p2.sex)
+  console.log(p2.name, p2.age, p2.sex)   // Bob 23 男
 
 </script>
 </body>

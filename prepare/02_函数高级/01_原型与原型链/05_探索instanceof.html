@@ -15,16 +15,21 @@
   //案例1
   function Foo() {  }
   var f1 = new Foo();
-  console.log(f1 instanceof Foo);
-  console.log(f1 instanceof Object);
-
+  console.log(f1 instanceof Foo);   // true
+  console.log(f1 instanceof Object);   // true
   //案例2
-  console.log(Object instanceof Function)
-  console.log(Object instanceof Object)
-  console.log(Function instanceof Object)
-  console.log(Function instanceof Function)
+  console.log(Object instanceof Function)  // true  Object是函数，是通过Function  new出来的
+  console.log(Object instanceof Object)  //   true   Object是通过Objec new出来的
+  console.log(Function instanceof Object)   // true  Object的显示原型在Function的隐式原型链上
+  console.log(Function instanceof Function)  //true  Function通过自己new自己出来的
   function Foo() {}
-  console.log(Object instanceof  Foo);
+  console.log(Object instanceof  Foo);  //　false
+
+  console.log(Function.prototype.__proto__ )
+  //{constructor: ƒ, __defineGetter__: ƒ, __defineSetter__: ƒ, hasOwnProperty: ƒ, __lookupGetter__: ƒ, …}
+  Function.prototype.__proto__ = Object.prototype   // Function.prototype是没有隐式原型的，是人为给它指定的
+  console.log(Object.prototype )
+  //{constructor: ƒ, __defineGetter__: ƒ, __defineSetter__: ƒ, hasOwnProperty: ƒ, __lookupGetter__: ƒ, …}
 </script>
 </body>
 </html>

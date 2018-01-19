@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<button>按钮1</button>
+<button>按钮2</button>
+<button>按钮3</button>
+
+</body>
+<script type="text/javascript">
+    /*
+        该方法不管点击哪个按钮，打印出来的始终是for循环走完后的i（3），for循环早已执行完毕
+        ，最后的i = 3，不符合条件就退出循环了，当用户再点击按钮时，打印出来的i就是3，并不是
+        按钮对应的下标值，因为没有保存之前的i值
+    */
+    /*var btns = document.getElementsByTagName('button');
+    for (var i = 0, length = btns.length ; i < length; i++) {
+        var btn = btns[i]
+        btn.onclick = function(){
+            alert(i)
+        }
+    }*/
+
+/*   var btns = document.getElementsByTagName('button')
+    function fn(){
+        for (var i = 0,length = btns.length; i < length; i++) {
+            var btn = btns[i]
+            btn.index = i     // 将每个i值保存下来
+            btn.onclick = function(){
+                alert('第' + (this.index + 1) + '个')
+            }
+        }
+    }
+    fn()*/
+   // 方法二、用闭包来方法做，闭包的作用就是延长函数作用域内的变量的声明周期，外部可以间接的操作内部函数
+ /*   for (var i = 0,length = btns.length; i < length; i++) {
+        (function(i){
+            var btn = btns[i]
+            btn.onclick = function(){
+                alert('第'+ (i + 1) + '个')
+            }
+        })(i)
+    }*/
+
+    // 方法三、用let关键字来定义 ,因为let关键字定义的变量有块作用域，每个i值都有一个块作用域来单独保存起来
+ /*   for (let i = 0,length = btns.length; i < length; i++) {
+         let btn = btns[i]
+         btn.onclick = function(){
+             alert(i + 1)
+         }
+
+    }*/
+
+    function fn(){
+
+    }
+    console.log(fn.prototype)
+    console.log(fn.__proto__)
+
+    function Foo(){
+
+    }
+    var f = new Foo()
+    console.log(f.prototype)
+    console.log(f.__proto__)
+</script>
+
+</html>

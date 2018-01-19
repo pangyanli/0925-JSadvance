@@ -11,13 +11,17 @@
    */
 
   var fn = function () {
-    console.log(fn)
+    console.log(fn)   //ƒ () {console.log(fn)} ,因为在全局已经预处理var fn, 然后给fn赋值一个函数，再fn()调用
   }
   fn()
 
+
   var obj = {
     fn2: function () {
-      console.log(fn2)
+     //  console.log(fn2)  //直接写fn2表示它是全局中那个的fn2，到全局中找fn2没有，所以报错
+        // this.fn2说明fn2是this指向的对象的属性（方法），在该对象中找到就返回，找不到就是undefined
+      console.log(this.fn2)   // function () { console.log(this.fn2) }
+      console.log(this.fn3)   // undefined
     }
   }
   obj.fn2()

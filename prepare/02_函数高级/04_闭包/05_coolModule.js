@@ -2,11 +2,11 @@
  * 自定义模块1
  */
 function coolModule() {
-  //私有的数据
+  //1、私有的数据
   var msg = 'atguigu'
   var names = ['I', 'Love', 'you']
 
-  //私有的操作数据的函数
+  //2、私有的操作数据的函数
   function doSomething() {
     console.log(msg.toUpperCase())
   }
@@ -14,7 +14,7 @@ function coolModule() {
     console.log(names.join(' '))
   }
 
-  //向外暴露包含多个方法的对象
+  //3、向外暴露包含多个方法的对象
   return {
     doSomething: doSomething,
     doOtherthing: doOtherthing

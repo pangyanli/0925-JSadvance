@@ -12,7 +12,10 @@
 4. 内存结构(图)
 5. 总结:
   * 函数的prototype属性: 在定义函数时自动添加的, 默认值是一个空Object对象
-  * 对象的__proto__属性: 创建对象时自动添加的, 默认值为构造函数的prototype属性值
+    函数对象一旦创建，JS引擎会自动给构造函数（比如Fn构造函数）做两件事：
+        Fn.prototype = {}    Fn.prototype.constructor = Fn
+  * 对象的__proto__属性: 创建对象时自动添加的, 默认值为构造函数的prototype属性值（该值就是空Object对象的地址值）
+    实例对象一旦创建，JS引擎会自动给该对象添加： this.__proto__ = Fn.prototype  (this就是该实例对象)
   * 程序员能直接操作显式原型, 但不能直接操作隐式原型(ES6之前)
 -->
 <script type="text/javascript">

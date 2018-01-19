@@ -1,4 +1,4 @@
-	基础js深入总结
+﻿	基础js深入总结
 一、数据类型：
 	1、分类：（分两大类）
 		（1）基本类型（也叫值类型）
@@ -345,16 +345,16 @@
 -----------------------------------------------------------------------------------------------------------------						  
 		函数高级 	
 一、函数高级
-	1、原型与原型链
+	1、原型
 		（1） 函数对象的prototype属性(图)
-			  * 每个函数都有一个prototype属性, 它默认指向一个Object空对象(即称为: 原型对象)
-					console.log(Date.prototype, typeof Date.prototype) 
-					//{constructor: ƒ, toString: ƒ, toDateString: ƒ, toTimeString: ƒ, toISOString: ƒ, …} "object"
-					function fn() {}
-					console.log(fn.prototype, typeof fn.prototype)  // {constructor: ƒ} "object"
-			  * 原型对象中有一个属性constructor, 它指向函数对象，  prototype是引用类型变量
-					console.log(Date.prototype.constructor===Date)   // true
-					console.log(fn.prototype.constructor===fn)   // true
+			  * 每个函数都有一个prototype属性, 它默认指向一个Object空对象(即称为: 原型对象)，所以prototype是引用类型变量
+				console.log(Date.prototype, typeof Date.prototype) 
+				//{constructor: ƒ, toString: ƒ, toDateString: ƒ, toTimeString: ƒ, toISOString: ƒ, …} "object"
+				function fn() {}
+				console.log(fn.prototype, typeof fn.prototype)  // {constructor: ƒ} "object"
+			  * 原型对象中有一个属性constructor, 它指向函数对象 
+				console.log(Date.prototype.constructor===Date)   // true
+				console.log(fn.prototype.constructor===fn)   // true
 		（2） 给原型对象添加属性(一般都是方法)
 			  * 作用: 函数的所有实例对象自动拥有原型中的属性(方法)
 					  function F() { }
@@ -368,5 +368,272 @@
 					  console.log(f.age)   // 12
 					  f.setAge(23)
 					  console.log(f.age)   // 23
+		（3）显示原型和隐式原型
+				1） 每个函数function都有一个prototype属性，即显式原型（是给实例的隐式原型用的）
+					* 该属性是在定义函数时自动添加的, 默认值是一个空Object对象
+					* 函数对象一旦创建，JS引擎会自动给构造函数（比如Fn构造函数）做两件事：
+							Fn.prototype = {}    Fn.prototype.constructor = Fn
+				2） 每个实例对象都有一个__proto__属性，可称为隐式原型
+					* 该属性创建对象时自动添加的, 默认值为构造函数的prototype属性值（该值就是空Object对象的地址值）
+						* 实例对象一旦创建，JS引擎会自动给该对象添加： this.__proto__ = Fn.prototype  (this就是该实例对象)
+				3） 对象的隐式原型的值为其对应构造函数的显式原型的值
+				4） 内存结构(图)
+	2、原型链（也叫隐式原型链）
+		（1）概念：访问一个对象的属性时，先在自身属性中查找，找到返回；
+				如果没有找到，则再沿着__proto__这条链向上查找，找到返回；
+				如果最终也没有找到，则返回undefined （注意区别作用域链查找变量最终找不到是报错的）
+		（2）作用：用于查找对象的属性或方法（注意作用域链是用于查找变量的）
+				function Fn() {
+					this.test1 = function () {
+					  console.log('test1()')
+					}
+				}
+				Fn.prototype.test2 = function () {
+					console.log('test2()')
+				}
+				var fn = new Fn()
+
+				fn.test1()   // test1()
+				fn.test2()   //  test2()
+				console.log(fn.toString())   // [object Object]
+				console.log(fn.test3)    // undefined
+				fn.test3()  // 因为fn.test3是undefined，所以调用时会报错fn.test3不是函数
+				
+		（3）原型链属性问题
+			1）读取对象的属性值时: 会自动到原型链中查找
+			2）设置对象的属性值时: 不会查找原型链, 如果当前对象中没有此属性, 直接添加此属性并设置其值
+			3）方法一般定义在原型中, 属性一般通过构造函数定义在对象本身上
+		（4）instanceof 是如何判断的？
+				* 表达式: A instanceof B
+				* 如果B函数的显式原型对象在A对象的原型链上, 返回true, 否则返回false
+			1） Function是通过new自己产生的实例
+			
+			 //案例1
+				  function Foo() {  }
+				  var f1 = new Foo();
+				  console.log(f1 instanceof Foo);   // true
+				  console.log(f1 instanceof Object);   // true
+			//案例2
+				  console.log(Object instanceof Function)  // true  Object是函数，是通过Function  new出来的
+				  console.log(Object instanceof Object)  //   true   Object是通过Objec new出来的
+				  console.log(Function instanceof Object)   // true  Object的显示原型在Function的隐式原型链上
+				  console.log(Function instanceof Function)  //true  Function通过自己new自己出来的
+				  function Foo() {}
+				  console.log(Object instanceof  Foo);  //　false
+
+				  console.log(Function.prototype.__proto__ )
+				  //{constructor: ƒ, __defineGetter__: ƒ, __defineSetter__: ƒ, hasOwnProperty: ƒ, __lookupGetter__: ƒ, …}
+				  Function.prototype.__proto__ = Object.prototype   // Function.prototype是没有隐式原型的，是人为给它指定的
+				  console.log(Object.prototype )
+				  //{constructor: ƒ, __defineGetter__: ƒ, __defineSetter__: ƒ, hasOwnProperty: ƒ, __lookupGetter__: ƒ, …}	
+		（5）原型面试题
+			 1）测试题1
+				  var A = function() {}
+				   var b = new A()
+				  console.log(b.n)  // undefined
+				  A.prototype.n = 1   // 通过显示原型给原型对象添加属性，所有对象都有影响
+				  var b = new A()
+				  console.log(b.n)   // 1
+
+				  A.prototype = {  //改变显示原型指向，对前面创建的对象没有影响
+					n: 2,
+					m: 3
+				  }
+				  var c = new A()
+				  console.log(b.n, b.m, c.n, c.m)  // 1  undefined  2  3
+			  2） 测试题2
+				  var F = function(){};
+				  Object.prototype.a = function(){
+					console.log('a()')
+				  };
+				  Function.prototype.b = function(){
+					console.log('b()')
+				  };
+				  var f = new F();
+				  f.a()    // a()
+				  F.a()   // a()
+				  F.b()   // b()
+				  //  f.b()  //　报错  ｆ instanceof Function  --> false　
+				  
+	3、执行上下文与执行上下文栈
+		（1）变量提升函数提升
+			1）变量声明提升：通过var定义(声明)的变量, 在定义语句之前就可以访问到，值为: undefined
+			2）函数声明提升：通过function声明的函数, 在声明函数函数的代码之前就可以直接调用，值为: 函数定义(对象)
+	
+		（2）执行上下文（分全局和函数两类）
+			1） 代码分类(位置)
+				  * 全局代码
+				  * 函数代码
+			2） 全局执行上下文
+				  * 在执行全局代码前将window确定为全局执行上下文
+				  * 对全局数据进行预处理
+						* var定义的全局变量==>undefined, 添加为window的属性
+						* function声明的全局函数==>赋值(fun), 添加为window的方法
+						* this==>赋值(window)
+				  * 开始执行全局代码
+			3） 函数执行上下文
+				  * 在调用函数, 准备执行函数体之前, 创建对应的函数执行上下文对象（并不是真实的JS对象,只是一个虚拟的对象）
+				  * 对局部数据进行预处理
+					* 形参变量==>赋值(实参)==>添加为执行上下文的属性
+					* arguments==>赋值(实参列表), 添加为执行上下文的属性
+					* var定义的局部变量==>赋值(undefined), 添加为执行上下文的属性
+					* function声明的函数 ==>赋值(fun), 添加为执行上下文的方法
+					* this==>赋值(调用函数的对象)
+				  * 开始执行函数体代码
+			4）	总结：n+1个执行上下文（n表示函数调用的次数，1表示全局上下文，有且只有一个全局上下文）
+		（3）执行上下文栈	
+				1） 在全局代码执行前, JS引擎就会创建一个栈来存储管理所有的执行上下文对象
+				2） 在全局执行上下文(window)确定后, 将其添加到栈中(压栈)
+				3） 在函数执行上下文创建后, 将其添加到栈中(压栈)
+				4） 在当前函数执行完后,将栈顶的对象移除(出栈)
+				5） 当所有的代码执行完后, 栈中只剩下window
+												//1. 进入全局执行上下文
+					  var a = 10
+					  var bar = function (x) {
+						var b = 5
+						foo(x + b)              //3. 进入foo执行上下文
+					  }
+					  var foo = function (y) { // y = x+b
+						var c = 5
+						  // 30 在bar函数中调用foo,传入实参 x + b, console.log(a + c + x +b) ,console.log(10 + 5 + 10 +5)
+						console.log(a + c + y)  // 30
+					  }
+					  bar(10)                    //2. 进入bar函数执行上下文
+							
+	4、作用域与作用域链
+		（1）作用域
+			1）理解：代码段所在的区域，它相对于上下文对象来说是静态的，在编写代码时就确定了
+			2）分类：分为全局作用域和函数作用域（也叫局部作用域），ES6之前没有块作用域
+			3）作用：隔离变量，不同作用域下同名变量不会有冲突
+		
+		（2）作用域与执行上下文
+			1）区别1：
+				① 除了全局作用域之外，每个函数都会创建自己的作用域，作用域是在函数定义时就确定了，而不是在函数调用时才创建
+				② 全局上下文环境是在 全局作用域确定之后，js 代码开始执行之前创建的
+				③ 函数执行上下文环境是在调用函数时，函数体代码执行之前创建
+			2）区别2：
+				① 作用域是静态的，只要函数定义好了就一直存在，且不会变化
+					（作用域的个数 n+1个，n代表函数个数，1代表全局作用域，有且只有1个）
+				② 上下文环境是动态的，调用函数时创建，函数调用结束时上下文环境就会被释放
+					（上下文环境对象个数 n+1个，n代表函数调用的次数，1代表全局执行上下文对象，有且只有1个）
+			3）两者之间的联系
+				① 执行上下文环境对象是从属于所在的作用域（用于存储该作用域预处理的数据内容）
+				② 全局上下文环境对应全局作用域
+				③ 函数上下文环境对应函数的作用域
+		（3）作用域链
+			1）理解：多个上下级关系的作用域形成的链，它的方向是由内向外（从下到上），查找变量时就是沿着作用域链来查找的
+			2）查找变量的规则：
+				① 先在当前的作用域下的执行上下文对象中查找对应的属性，如果有则直接返回，否则就会进入上一级作用域中查找
+				② 在上一级作用域的执行上下文对象中查找对应的属性，如果找到了就直接返回，否则就会再进入上一级作用域中继续寻找
+				③ 如果在上上一级还没找到就再重复相同的操作，直到找到全局作用域中的全局上下文对象，如果找到 了就直接返回，
+				如果还是没有找到，那就报错了
+			3）作用域面试题：
+				面试题1: 结果输出多少?
+					  var x = 10;
+					  function fn() {
+						console.log(x);    // 10
+					  }
+					  function show(f) {  //实参传fn即相当于：f = fn
+						var x = 20;
+						f();   // fn() 即在这里调用了fn函数,执行fn作用域的上下文环境，执行相关代码逻辑
+					  }
+					  show(fn)
 					  
-  
+				面试题2：说说它们的输出情况	
+					var fn = function () {
+						//ƒ () {console.log(fn)} ,因为在全局已经预处理var fn, 然后给fn赋值一个函数，再fn()调用
+						console.log(fn)   
+					}
+					fn()
+					
+					var obj = {
+						fn2: function () {
+							//直接写fn2表示它是全局中那个的fn2，到全局中找fn2没有，所以报错
+							console.log(fn2)   // 报错fn2未定义 
+							// this.fn2说明fn2是this指向的对象的属性（方法），在该对象中找到就返回，找不到就是undefined
+						    console.log(this.fn2)   // function () { console.log(this.fn2) }
+							// 访问一个不存在的属性就是返回undefined
+						    console.log(this.fn3)   // undefined
+						}
+					}
+	5、闭包
+		（1）闭包的概念：
+			1）如何产生闭包?
+				当一个嵌套的内部函数引用了嵌套外部函数的变量，同时外部函数调用时，js引擎回产生一个虚拟的对象（不是真实存在），
+				就称该对象为闭包
+			2）产生闭包的三个必备条件：（缺一不可）
+				① 函数嵌套
+				② 内部函数引用外部函数的数据（变量/函数）
+				③ 外部函数调用
+				当产生闭包的条件满足了，可以在浏览器查看中查看，打开控制台-->Sources-->scope-->local-->内部函数-->[[Scope]]
+				看看这里是否有 Closure,有就代表闭包产生了，闭包里包含了引用外部函数的变量
+			3）闭包到底是什么?
+				* 使用chrome调试查看
+				* 理解一: 闭包是嵌套的内部函数(绝大部分人)
+				* 理解二: 包含被引用变量的对象(极少数人)（该对象不是真实的js对象）
+				* 注意: 闭包存在于嵌套的内部函数中
+			4）常见的闭包
+				① 将函数作为另一个函数的返回值
+						function fn1() {
+							var a = 2
+							function fn2() {
+							  a++
+							  console.log(a)
+							}
+							return fn2
+						}
+						var f = fn1()   // f 保存了内部函数对象的引用，保证内部函数对象没有成为垃圾对象
+						f() // 3         // 闭包一直存在  ,可以在控制台Sources中给a++打断点观察闭包的变化情况
+						f() // 4
+						f()  //  5
+				② 将函数作为实参传递给另一个函数调用
+						function showMsgDelay(msg, time) {
+							setTimeout(function () {
+							  console.log(msg)
+							}, time)
+						}
+						showMsgDelay('hello', 1000)   // 闭包存在的时间是1s
+			5）闭包的作用
+				① 使函数内部的变量在函数执行完毕后，仍然存活在内存中（即延长了局部变量的生命周期）
+				② 让外部函数可以间接操作到函数内部的数据（变量/函数）
+			6）闭包的生命周期
+				① 产生：分两种情况（前提是满足产生闭包的那三个条件）
+					* 当嵌套的内部函数是用声明式方式定义时，那么函数定义执行完时就产生了（注意不是调用）
+					* 当嵌套的内部函数是用var字面量表达式来定义时，那么给定义的函数变量赋值时才产生
+				② 死亡：
+					当嵌套的内部函数变成垃圾对象时（将内部函数设置为null）
+					
+			7）闭包的应用: 定义JS模块
+				  * 具有特定功能的js文件
+				  * 将所有的数据和功能都封装在一个函数内部(私有的)
+				  * 只向外暴露一个包信n个方法的对象或函数
+				  * 模块的使用者, 只需要通过模块暴露的对象调用方法来实现对应的功能		
+					
+			8）闭包的缺点
+					  * 函数执行完后, 函数内的局部变量没有释放, 占用内存时间会变长
+					  * 容易造成内存泄露，从而导致内存溢出
+				*解决
+					  * 能不用闭包就不用
+					  * 及时释放		
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+		

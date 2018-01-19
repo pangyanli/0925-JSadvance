@@ -19,9 +19,10 @@
     var b = 5
     foo(x + b)              //3. 进入foo执行上下文
   }
-  var foo = function (y) {
+  var foo = function (y) { // y = x+b
     var c = 5
-    console.log(a + c + y)
+      // 30 在bar函数中调用foo,传入实参 x + b, console.log(a + c + x +b) ,console.log(10 + 5 + 10 +5)
+    console.log(a + c + y)  // 30
   }
   bar(10)                    //2. 进入bar函数执行上下文
 </script>
